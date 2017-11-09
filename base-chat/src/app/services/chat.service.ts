@@ -32,7 +32,8 @@ export class ChatService {
       message: msg,
       timeSent: timestamp,
       userName: this.userName,
-      email: email });
+      email: email 
+    });
   }
 
   getMessages(): FirebaseListObservable<ChatMessage[]> {
