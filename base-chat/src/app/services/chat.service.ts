@@ -14,47 +14,50 @@ export class ChatService {
   chatMessage: ChatMessage;
   userName: Observable<string>;
 
-  constructor(
-    private db: AngularFireDatabase,
+  constructor( 
+    private db : AngularFireDatabase,
     private afAuth: AngularFireAuth
-  ) { 
-  	this.afAuth.authState.subscribe(auth => {
-  		if(auth !== undefined && auth !== null){
-  			this.user = auth;
-  		}
-  	})
+    ) { 
+    // this.afAuth.authState.subscribe(auth => {
+    //   if(auth !== undefined && auth !== null){
+    //     this.user = auth;
+    //   }
+    // })
   }
-  sendMessage(msg: string) {
-    const timestamp = this.getTimeStamp();
-    const email = this.user.email;
-    this.chatMessages = this.getMessages();
-    this.chatMessages.push({
-      message: msg,
-      timeSent: timestamp,
-      userName: this.userName,
-      email: email 
+  sendMessage(msg : string) {
+     const timestamp = this.getTimeStamp();
+     // const email = this.user.email;
+     const email = "test@test.test"
+     this.chatMessages = this.getMessages();
+     this.chatMessages.push({
+       message: msg,
+       timeSent: timestamp,
+       // userName: this.userName,
+       userName: "test-user",
+       email: email 
     });
+       console.log('called sendMessage()')
   }
-
-  getMessages(): FirebaseListObservable<ChatMessage[]> {
-    // query to create our message feed binding
+  getMessages():FirebaseListObservable<ChatMessage[]> {
     return this.db.list('messages', {
       query: {
         limitToLast: 25,
         orderByKey: true
       }
-    });
+    })
   }
-
   getTimeStamp() {
-  	const now = new Date();
-  	const date = now.getUTCFullYear() + '/' +
-  				(now.getUTCMonth() + 1) + '/' +
-  				now.getUTCDate();
-  	const time = now.getUTCHours() + ':' +
-  				 now.getUTCMinutes() + ':' +
-  				 now.getUTCSeconds();
-  	return(date + ' ' + time);
-  }
+    const now = new Date();
+    const date = now.getUTCFullYear() + '/' +
+                 (now.getUTCMonth() + 1) + '/' + 
+                 now.getUTCDate();
+    const time = now.getUTCHours() + ':' +
+                 now.getUTCMinutes() + ':' +
+                 now.getUTCSeconds();
 
+    return (date + ' ' + time)
+  }
 }
+
+
+
