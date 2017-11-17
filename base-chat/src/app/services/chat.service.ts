@@ -41,7 +41,7 @@ export class ChatService {
   getMessages():FirebaseListObservable<ChatMessage[]> {
     return this.db.list('messages', {
       query: {
-        limitToLast: 25,
+        limitToLast: 50,
         orderByKey: true
       }
     })
