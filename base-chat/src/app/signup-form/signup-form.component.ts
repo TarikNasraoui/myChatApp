@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Routes } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class SignupFormComponent  {
 	displayName: string;
 	errorMsg: string;
 
-  constructor(private authService : AuthService, private router : Routes) { }
+  constructor(private authService : AuthService, private router : Router) { }
 
  signUp() {
  	const email = this.email;
@@ -21,7 +21,7 @@ export class SignupFormComponent  {
  	const displayName = this.displayName;
  	this.authService.signUp(email, password, displayName)
  	.then(resolve => this.router.navigate(['chat']))
- 	.catch(error => this.errorMsg = error.message);
+ 	.catch(error => this.errorMsg = error.message)
  }
 
-} 
+}

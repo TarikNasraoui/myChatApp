@@ -18,22 +18,38 @@ export class ChatService {
     private db : AngularFireDatabase,
     private afAuth: AngularFireAuth
     ) { 
-    // this.afAuth.authState.subscribe(auth => {
-    //   if(auth !== undefined && auth !== null){
-    //     this.user = auth;
-    //   }
-    // })
+      this.afAuth.authState.subscribe(auth => {
+        if(auth !== undefined && auth !== null){
+          this.user = auth;
+        }
+        this.getUser().subscribe(a => {
+          if( auth !== undefined && auth !== null) {
+              this.user = auth;
+          }
+          this.getUser().subscribe(a => {
+            this.userName = a.displayName;
+          })
+        })
+      })
+  }
+  getUser() {
+    const userId = this.user.uid;
+    const path = `/users/${userId}`;
+    return this.db.object(path);
+  }
+  getUsers() {
+
+    const path = `/users`;
+    return this.db.list(path);
   }
   sendMessage(msg : string) {
      const timestamp = this.getTimeStamp();
-     // const email = this.user.email;
-     const email = "test@test.test"
+     const email = this.user.email;
      this.chatMessages = this.getMessages();
      this.chatMessages.push({
        message: msg,
        timeSent: timestamp,
-       // userName: this.userName,
-       userName: "test-user",
+       userName: this.userName,
        email: email 
     });
        console.log('called sendMessage()')
