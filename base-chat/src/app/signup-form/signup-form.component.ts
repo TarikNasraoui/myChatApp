@@ -7,14 +7,14 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './signup-form.component.html',
   styleUrls: ['./signup-form.component.css']
 })
-export class SignupFormComponent  {
+export class SignupFormComponent {
 	email : string;
 	password: string;
 	displayName: string;
 	errorMsg: string;
 
   constructor(private authService : AuthService, private router : Router) { }
-
+ 
  signUp() {
  	const email = this.email;
  	const password = this.password;
