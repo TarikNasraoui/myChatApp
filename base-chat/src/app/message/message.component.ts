@@ -14,15 +14,21 @@ export class MessageComponent implements OnInit {
   userEmail: string;
   userName: string;
   messageContent: string;
-  timestamp : Date = new Date(); 
+  timeStamp: Date = new Date();
   isOwnMessage: boolean;
-  constructor() { }
+  ownEmail: string;
 
-  ngOnInit(chatMessage = this.chatMessage) {
-  	this.messageContent = chatMessage.message;
-  	this.timestamp = chatMessage.timeSent;
-  	this.userEmail = chatMessage.email;
-  	this.userName = chatMessage.userName;
+  constructor(private authService: AuthService) {
+    authService.authUser().subscribe(user => {
+      this.ownEmail = user.email;
+      this.isOwnMessage = this.ownEmail === this.userEmail;
+    });
   }
 
+  ngOnInit(chatMessage = this.chatMessage) {
+    this.messageContent = chatMessage.message;
+    this.timeStamp = chatMessage.timeSent;
+    this.userEmail = chatMessage.email;
+    this.userName = chatMessage.userName;
+  }
 }
